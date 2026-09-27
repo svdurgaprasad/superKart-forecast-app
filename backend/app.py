@@ -2,6 +2,7 @@
 import numpy as np
 import joblib  # For loading the serialized model
 import pandas as pd  # For data manipulation
+from model_utils import clean_categories
 from flask import Flask, request, jsonify  # For creating the Flask API
 
 #Initialize the Flask application
