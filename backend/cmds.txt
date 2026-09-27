@@ -1,0 +1,10 @@
+docker build -t superkart-api .
+
+-t superkart-api    → names the Docker image "superkart-api"
+.                   → use the Dockerfile in the current directory
+docker run --rm -p 7860:7860 superkart-api
+docker run -d --0name superkart-api -p 7860:7860 superkart-api
+
+docker logs -f superkart-api
+docker stop superkart-api
+  
