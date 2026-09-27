@@ -3,7 +3,7 @@ import numpy as np
 import joblib  # For loading the serialized model
 import pandas as pd  # For data manipulation
 from model_utils import clean_categories
-from flask import Flask, request, jsonify  # For creating the Flask API
+from flask import Flask, request, Response jsonify  # For creating the Flask API
 
 #Initialize the Flask application
 superkart_predictor_api = Flask("Super Kart Sales Forecast Predictor")
@@ -24,7 +24,7 @@ def home():
 @superkart_predictor_api.post('/v1/sales')
 def predict_sales():
     """
-    This function handles POST requests to the '/v1/rental' endpoint.
+    This function handles POST requests to the '/v1/sales' endpoint.
     It expects a JSON payload containing property details and returns
     the predicted rental price as a JSON response.
     """
@@ -56,6 +56,43 @@ def predict_sales():
     # Return the actual price
     return jsonify({'Predicted Sales (in dollars)': predicted_sales})
 
+
+# Define an endpoint for batch prediction (POST request)
+@superkart_predictor_api.post('/v1/salesbatch')
+def predict_sales_batch():
+    """
+    This function handles POST requests to the '/v1/salesbatch' endpoint.
+    It expects a CSV file containing property details for multiple properties
+    and returns the predicted rental prices as a dictionary in the JSON response.
+    """
+    # Get the uploaded CSV file from the request
+    file = request.files['file']
+
+    # Read the CSV file into a Pandas DataFrame
+    input_data = pd.read_csv(file)
+
+    # Create output dataframe so the original input is not modified
+    output_data = input_data.copy()
+
+    # Make predictions for all properties in the DataFrame 
+    predicted_sales = model.predict(input_data).tolist()
+
+    # Add predictions as a new column
+    output_data["Predicted_Sales"] = predicted_sales    
+
+
+    # Convert DataFrame to CSV
+    csv_output = output_data.to_csv(index=False)
+
+    # Return CSV file in HTTP response
+    return Response(
+        csv_output,
+        mimetype="text/csv",
+        headers={
+            "Content-Disposition":
+                "attachment; filename=superkart_sales_predictions.csv"
+        }
+    )
 
 if __name__ == '__main__':
     superkart_predictor_api.run(debug=True)
