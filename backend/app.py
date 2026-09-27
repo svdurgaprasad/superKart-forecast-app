@@ -51,7 +51,7 @@ def predict_sales():
     predicted_sales = model.predict(input_data)[0]
 
     # Convert predicted_price to Python float
-    predicted_sales = round(float(predicted_price), 2)
+    predicted_sales = round(float(predicted_sales), 2)
 
     # Return the actual price
     return jsonify({'Predicted Sales (in dollars)': predicted_sales})
