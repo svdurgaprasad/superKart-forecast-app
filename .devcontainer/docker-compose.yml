@@ -1,0 +1,25 @@
+
+version: '3.8'
+
+services:
+  # The backend API service
+  api:
+    build:
+      context: ..
+      dockerfile: ./api-subfolder/Dockerfile # Change to your actual subfolder name
+    ports:
+      - "7860:7860"
+    # Overrides the command to keep the container alive if needed
+    command: /bin/sh -c "while sleep 1000; do :; done" 
+
+  # The frontend UI service
+  ui:
+    build:
+      context: ..
+      dockerfile: ./ui-subfolder/Dockerfile # Change to your actual subfolder name
+    ports:
+      - "3000:3000" # Change to your UI's local port
+    depends_on:
+      - api
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
