@@ -6,7 +6,7 @@ services:
   api:
     build:
       context: ..
-      dockerfile: ./api-subfolder/Dockerfile # Change to your actual subfolder name
+      dockerfile: ./backend/Dockerfile # Change to your actual subfolder name
     ports:
       - "7860:7860"
     # Overrides the command to keep the container alive if needed
@@ -16,7 +16,7 @@ services:
   ui:
     build:
       context: ..
-      dockerfile: ./ui-subfolder/Dockerfile # Change to your actual subfolder name
+      dockerfile: ./frontend/Dockerfile # Change to your actual subfolder name
     ports:
       - "3000:3000" # Change to your UI's local port
     depends_on:
