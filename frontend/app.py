@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import requests
 from io import BytesIO
+import os
 
 BACKEND_URL = os.getenv("API_URL", "http://localhost:7860")
 
