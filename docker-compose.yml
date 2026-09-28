@@ -1,0 +1,21 @@
+services:
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: superkart-api
+    ports:
+      - "7860:7860"
+
+  ui:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: superkart-ui
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    environment:
+      API_URL: http://api:7860
