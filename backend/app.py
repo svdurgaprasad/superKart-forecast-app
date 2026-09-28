@@ -21,10 +21,10 @@ def home():
     return "Welcome to the Super Kart Sales Prediction API!"
 
 # Define an endpoint for single property prediction (POST request)
-@superkart_predictor_api.post('/v1/sales')
+@superkart_predictor_api.post('/v1/predict')
 def predict_sales():
     """
-    This function handles POST requests to the '/v1/sales' endpoint.
+    This function handles POST requests to the '/v1/predict' endpoint.
     It expects a JSON payload containing property details and returns
     the predicted rental price as a JSON response.
     """
@@ -58,10 +58,10 @@ def predict_sales():
 
 
 # Define an endpoint for batch prediction (POST request)
-@superkart_predictor_api.post('/v1/salesbatch')
+@superkart_predictor_api.post('/v1/predictbatch')
 def predict_sales_batch():
     """
-    This function handles POST requests to the '/v1/salesbatch' endpoint.
+    This function handles POST requests to the '/v1/predictbatch' endpoint.
     It expects a CSV file containing property details for multiple properties
     and returns the predicted rental prices as a dictionary in the JSON response.
     """
@@ -74,11 +74,11 @@ def predict_sales_batch():
     # Create output dataframe so the original input is not modified
     output_data = input_data.copy()
 
-    # Make predictions for all properties in the DataFrame 
+    # Make predictions for all properties in the DataFrame
     predicted_sales = model.predict(input_data).tolist()
 
     # Add predictions as a new column
-    output_data["Predicted_Sales"] = predicted_sales    
+    output_data["Predicted_Sales"] = predicted_sales
 
 
     # Convert DataFrame to CSV
