@@ -6,7 +6,7 @@
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   
   // Forwards ports so you can view the UI in your local web browser
-  "forwardPorts": [3000, 7860], 
+  "forwardPorts": [8501, 7860], 
   
   "settings": {},
   "extensions": []
