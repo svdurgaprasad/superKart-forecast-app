@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 from io import BytesIO
 
-BACKEND_URL = "http://host.docker.internal:7860"
+BACKEND_URL = os.getenv("API_URL", "http://localhost:7860")
 
 st.set_page_config(page_title="SuperKart Sales Prediction", page_icon="🛒")
 st.title("SuperKart Sales Prediction")
@@ -39,7 +39,7 @@ input_data = {
 
 if st.button("Predict Sales", type="primary"):
     try:
-        response = requests.post(f"{BACKEND_URL}/v1/sales", json=input_data, timeout=30)
+        response = requests.post(f"{BACKEND_URL}/v1/predict", json=input_data, timeout=30)
         if response.ok:
             prediction = response.json()["Predicted Sales (in dollars)"]
             st.success(f"Predicted Sales: ${prediction:,.2f}")
@@ -63,7 +63,7 @@ if uploaded_file is not None:
     if st.button("Predict Batch", type="primary"):
         try:
             files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "text/csv")}
-            response = requests.post(f"{BACKEND_URL}/v1/salesbatch", files=files, timeout=60)
+            response = requests.post(f"{BACKEND_URL}/v1/predictbatch", files=files, timeout=60)
 
             if response.ok:
                 predictions_df = pd.read_csv(BytesIO(response.content))
