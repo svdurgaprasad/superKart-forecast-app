@@ -1,10 +1,33 @@
 docker build -t superkart-api .
+docker build -t superkart-ui .
 
 -t superkart-api    → names the Docker image "superkart-api"
 .                   → use the Dockerfile in the current directory
 docker run --rm -p 7860:7860 superkart-api
-docker run -d --0name superkart-api -p 7860:7860 superkart-api
+docker run -d --name superkart-api -p 7860:7860 superkart-api
+
+docker logs -f superkart-api
+
+docker build -t superkart-api .
+docker build -t superkart-ui .
+
+-t superkart-api    → names the Docker image "superkart-api"
+.                   → use the Dockerfile in the current directory
+docker run --rm -p 7860:7860 superkart-api
+docker run -d --name superkart-api --network superkart-network -p 7860:7860 superkart-api
+docker run -d --name superkart-ui --network superkart-network --add-host=host.docker.internal:host-gateway -p 8501:8501 superkart-ui
+docker ps
+docker ps -a
+docker stop superkart-api
+docker stop superkart-ui
+docker rm superkart-api
+docker rm superkart-ui
+docker rm -f superkart-api
+docker rm -f superkart-ui
+
+
 
 docker logs -f superkart-api
 docker stop superkart-api
-  
+
+
